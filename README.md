@@ -23,7 +23,7 @@ Ele é parte integrante do conjunto de ações que a Elipse Software sempre prom
 
 ## Links úteis
 
-* [Apresentação de Slides - RevealJS](https://mauricio-elipse.github.io/epmanalysisminicourse.github.io)
+* [Apresentação de Slides - RevealJS](https://elipsesoftware.github.io/epmanalysisminicourse)
 * QRCode para a apresentação de slides: em breve...
 * Playlist dos vídeos: disponível em breve...
 * [Repositório de conteúdo da epmwebapi](https://github.com/elipsesoftware/epmwebapi)
