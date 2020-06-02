@@ -18,7 +18,7 @@ Este exemplo apresenta de maneira simplificada:
 
 **Foto**
 
-![Foto NodMCU-LDR](NodeMCU_LDR.jpg?raw=true "foto NodeMCU-LDR")
+![Foto NodMCU-LDR](NodeMCU_LDR.JPG?raw=true "foto NodeMCU-LDR")
 
 ## Links úteis
 
