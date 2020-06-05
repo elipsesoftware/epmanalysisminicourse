@@ -11,7 +11,7 @@ O curso é parte integrante do conjunto de ações que a **Elipse Software** sem
 * **Tecla ESC ou Tecla O**: Mostra todos os *slides* para clicar e navegar direto para o *slide* de interesse.
 * **Tecla S**: Abre uma janela com as anotações do *slide* atual (anotações com conteúdos de *links* relacionados).
 * **Tecla ALT + Botão esquerdo do mouse**: *Zoom in* ou *zoom out*.
-* Use o número de um *slide* diretamente na barra de endereço. Por exemplo, o endereço http://epmtr.elipse.com.br/MinicursoEpmAnalysis/#/4 vai para o *slide* n&#186; 4, enquanto o endereço  http://epmtr.elipse.com.br/MinicursoEpmAnalysis/#/6/2 vai para o *slide* n&#186; 6/2.
+* Use o número de um *slide* diretamente na barra de endereço. Por exemplo, o endereço http://epmtr.elipse.com.br/MinicursoEpmAnalysis/#/4 vai para o *slide* n&#186; 4, enquanto o endereço  https://elipsesoftware.github.io/epmanalysisminicourse/#/6/2 vai para o *slide* n&#186; 6/2.
 * **Tecla C**: Habilita ou desabilita uma caneta para escrever em um *slide*. A tecla DELETE apaga tudo que foi escrito no *slide* com a caneta.
 * **Tecla B**: Habilita ou desabilita o modo **Quadro Negro**. A tecla DELETE apaga tudo que foi escrito no *slide* com a caneta.
 * **Tecla F**: Entra no modo **Tela Cheia**.
