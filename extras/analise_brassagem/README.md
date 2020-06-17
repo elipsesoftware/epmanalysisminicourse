@@ -23,3 +23,5 @@ Análise feita por Jônathan Dambros (CEO Latos)
 Saiba mais sobre a Latos: [http://www.latos.ai](http://www.latos.ai)
 
 Siga-nos no [LinkedIn](https://www.linkedin.com/company/latosai/)
+
+![LATOS](code/logo_site_with_space.png ?raw=true "LATOS")
