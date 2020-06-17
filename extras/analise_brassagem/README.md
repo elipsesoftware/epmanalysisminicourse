@@ -24,4 +24,4 @@ Saiba mais sobre a Latos: [http://www.latos.ai](http://www.latos.ai)
 
 Siga-nos no [LinkedIn](https://www.linkedin.com/company/latosai/)
 
-![LATOS](https://github.com/elipsesoftware/epmanalysisminicourse/blob/master/extras/analise_brassagem/code/logo_site_with_space.png)
+<img src=\"https://github.com/elipsesoftware/epmanalysisminicourse/blob/master/extras/analise_brassagem/code/logo_site_with_space.png\" alt="LATOS" width=30% style="float:left" />
