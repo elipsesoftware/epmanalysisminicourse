@@ -162,7 +162,7 @@ def aprbs( n, pmin, pmax, opt = 0, F = 0.8 ):
 	j = 0
 	u = np.zeros(n)
 	while j <= n-1:
-		t  = int(round( miny + np.log(minu + np.random.rand(1) * deltu) * delta))
+		t  = int(round(( miny + np.log(minu + np.random.rand(1) * deltu) * delta)[0]))
 		state = -state
 		if opt:
 			aux = state*np.random.rand(1)
@@ -210,8 +210,8 @@ def histPlot( xepm, ei = -1, es = -1 ):
     # Cpk = Min [ (Media-EspInf)/3Sigma; (EspSup-Media)/3Sigma ]  ISO TS16949 (manufatura) Cpk > 1,67
     cp  = (es-ei)/(6*sigma)
     cpk = min([ (mu-ei)/(3*sigma) , (es-mu)/(3*sigma)])
-    n, bins, patches = plt.hist(xo, ni, normed=1, facecolor='green', alpha=0.5)
-    y = mpl.mlab.normpdf(bins, mu, sigma) # envelope da curva normal
+    n, bins, patches = plt.hist(xo, ni, facecolor='green', alpha=0.5)
+    y = stats.norm.pdf(bins, mu, sigma) # envelope da curva normal
     plt.plot(bins, y, 'r--')
     title = r'Histograma: $\mu='
     title += str(mu)
