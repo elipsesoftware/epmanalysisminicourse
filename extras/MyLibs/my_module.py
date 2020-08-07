@@ -15,6 +15,10 @@ NOTAS:
 * Para poder carregar a "my_module", é preciso que a mesma esteja na lista de "paths" da área de trabalho Python, caso contrário, deve-se adicioná-la através dos seguintes comandos:
  >> sys.path.append(r'C:\MyLibs')
  >> import my_module as mm
+
+* Para recarregar um módulo:
+>> import imp
+>> imp.reload(mm)
 """
 
 print('*** Importacao do modulo my_module - Minicurso EPM-Analysis ***')
@@ -240,6 +244,7 @@ def histPlot( xepm, ei = -1, es = -1 ):
 
 # Gráfico com infos de CEP
 def cep( xepm, ei = None, es = None ):
+    # \TODO: melhorar apresentação das informações nos gráficos (gerar HTML?!)
     n = len(xepm) # numero de pontos
     x = xepm['Value'].copy()
     t = xepm['Timestamp'].copy()
@@ -260,9 +265,9 @@ def cep( xepm, ei = None, es = None ):
     pOut = 1.5
     fig = plt.figure(1, figsize=(10.5,10.5))
     axHist = fig.add_subplot(5, 1, 1)
-    m, bins, patches = axHist.hist(x, binsNum, normed=1, facecolor='green', alpha=0.5)
+    m, bins, patches = axHist.hist(x, binsNum, facecolor='green', alpha=0.5)
     axHist.set_aspect(1.)
-    y = mpl.mlab.normpdf(bins, x.mean(), x.std())
+    y = stats.norm.pdf(bins, x.mean(), x.std())  # envelope da curva normal
     plt.plot(bins, y, 'r--')
     divider = make_axes_locatable(axHist)
     axBoxplot = divider.append_axes("bottom", 1.2, pad=0.1, sharex=axHist)
@@ -282,7 +287,7 @@ def cep( xepm, ei = None, es = None ):
     # Calcula as estatísticas sobre os dados SEM as causas especiais
     size, minmax, amean, var, skewness, kurtosis = stats.describe(x1)
     # Teste Shapiro-Wilk (avaliar a hipótese de distribuição normal)
-    w, p = stats.shapiro(x1, a=None, reta=False)
+    w, p = stats.shapiro(x1)
     # Calculo dos limites de controle (valores)
     sec2min = np.vectorize(lambda x: int(x/60. + 0.5))
     td2sec = np.vectorize(lambda dt: dt.total_seconds())
@@ -388,28 +393,6 @@ def sendMailTo(to_addr, subject_header, bd='', att=''):
     smtpserver.sendmail(from_addr, to_addr, msg.as_string())
     smtpserver.quit()
 
-
-# Período de avaliação padrao de 6 h - primeiro timestamp serve de referencia para toda pesquisa (iniciar a 00:00:00 de algum dia e terminar pelo menos Tini + 6h)
-# Avaliacao eh feita em base diaria
-def minFromPeriod( epmData, pHours = 6 ):
-    iniPeriod = epmData['Timestamp'][0]
-    endPeriod = epmData['Timestamp'][-1]
-    dTotal = endPeriod - iniPeriod
-    totDays = dTotal.days # numero de dias a serem avaliados
-
-    evalPeriod = datetime.timedelta(hours = pHours) # periodo de avaliacao - busca dos valores minimos
-    nextPeriod = iniPeriod + evalPeriod
-    # Pesquisa diaria segundo base horaria definida em iniPeriod ate evalPeriod (horas)
-    minsPeriod = []
-    for i in range(totDays+1):
-        iniP = epmData['Timestamp'] >= iniPeriod
-        endP = epmData['Timestamp'] < nextPeriod
-        dataPeriod = epmData[:, iniP * endP]
-        minsPeriod.append( dataPeriod['Value'].min() )
-        # Atualiza os periodos para o proximo dia
-        iniPeriod = iniPeriod + datetime.timedelta( 1 )
-        nextPeriod = iniPeriod + evalPeriod
-    return np.array(minsPeriod)
 
 # Retorna o percentual de tempo que a variável ficou em cada período
 def percentTimeIn(epmData, nodes = -1):
@@ -531,7 +514,7 @@ def dailyProfile3D( epmData, sampling = 30, pHours = 24):
         for j in range( indices.shape[1] ):
             meshProfile[i,j] = profileMatrix[i,j]
     from mpl_toolkits.mplot3d import Axes3D
-    fig = mpl.pylab.figure()
+    fig = plt.figure()
     ax = fig.gca(projection='3d')
     X = meshTime
     Y = indices
@@ -539,7 +522,7 @@ def dailyProfile3D( epmData, sampling = 30, pHours = 24):
     ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap='coolwarm', alpha=0.8)
     ax.set_xlabel('minutos')
     ax.set_ylabel('dia')
-    mpl.pylab.show()
+    plt.show()
 
 
 
