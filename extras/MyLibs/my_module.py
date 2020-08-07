@@ -4,7 +4,14 @@ Copyright (C) 2019 Elipse Software.
 Distributed under the MIT License.
 (See accompanying file LICENSE.txt or copy at http://opensource.org/licenses/MIT)
 
-NOTAS: 
+
+ATENÇÃO
+=======
+Os exemplos neste arquivo servem apenas como referência para o aprendizado, NÃO DEVEM SER UTILIZADOS EM PRODUÇÃO, ou seja, não são feitas verificações de entradas por parte dos usuários, não há tratamento de exceções, não tem testes unitários, nem documentação/help, etc.
+Em resumo, NÃO TEM UM MÍNIMO DE GARANTIAS para uso em casos reais!!!
+
+NOTAS
+=====
 
 * Para o desenvolvimento de códigos em linguagem Python é altamente recomendado estudar e aplicar as boas práticas definidas na PEP 8 -- Style Guide for Python Code (https://www.python.org/dev/peps/pep-0008/).
 
@@ -16,7 +23,7 @@ NOTAS:
  >> sys.path.append(r'C:\MyLibs')
  >> import my_module as mm
 
-* Para recarregar um módulo:
+* Para recarregar um módulo (sem a necessidade de reabrir uma aba do EPM Dataset Analysis, por exemplo):
 >> import imp
 >> imp.reload(mm)
 """
@@ -28,16 +35,14 @@ from scipy import interpolate
 from scipy import integrate
 from scipy import signal
 from scipy import stats
-
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-
 import datetime
 import csv
 
 def parabola( x, a=1, b=-5, c=6, plotResult=True ):
-    """ Função que retorna o resultado da avaliacao de uma equacao do tipo:
+    """ Função que retorna o resultado da avaliação de uma equação do tipo:
     a*x**2 + b*x + c
     ex.:
     x = np.arange(-10, 11)
@@ -63,7 +68,6 @@ def filtroMM( datasetPen, windowSize ):
         filtrado["Value"][i-1] = datasetPen["Value"][i-windowSize:i].mean()
     return filtrado
 
-######################
 # Filtro de media móvel de ordem "o" - informa vetor do numpy
 def movingAvgFilterNpVector( xo, o ):
     x = xo.copy() # copia os dados para não alterar a variável do console
@@ -84,7 +88,6 @@ def movingAvgFilter( xepmo, o ):
 	xf = movingAvgFilterNpVector( xepm['Value'], o )
 	xepm['Value'] = xf.copy()
 	return xepm
-######################
 
 # Filtro de ruído de um sinal utiliza Butterworth ordem 2 - informa objeto de dados do EPM
 def filt_signal( xepmo, w = 0.3, o = 2 ):
@@ -94,7 +97,6 @@ def filt_signal( xepmo, w = 0.3, o = 2 ):
     yf = xepmo.copy()
     yf['Value'] = yfVec
     return yf
-
 
 # Exportar para arquivo CSV - usando o módulo numpy
 def export_csv( epmData, fileName ):
@@ -197,7 +199,6 @@ def amplitudeEstimation( x, w = 0.5 ):
     plt.show()
     return amp
 
-
 # Gráfico de histograma informando dados do EPM
 def histPlot( xepm, ei = -1, es = -1 ):
     nd = len(xepm) # numero de pontos
@@ -223,7 +224,6 @@ def histPlot( xepm, ei = -1, es = -1 ):
     title += str(sigma)
     title += '$'
     plt.title(title)
-    #text(3, 3, 'f(t) = exp(-t) sin(2 pi t)')
     font = {'family' : 'serif',
         'color'  : 'darkred',
         'weight' : 'bold',
@@ -310,15 +310,15 @@ def cep( xepm, ei = None, es = None ):
     dt1 = dt1.cumsum()
     licV = x1.mean() - 2.66 * mr.mean()
     lscV = x1.mean() + 2.66 * mr.mean()
-    # Calculo dos limites de controle (amplitude)
+    # Cálculo dos limites de controle (amplitude)
     licA = 0
     lscA = 3.267 * mr.mean()
-    # Calculo dos índices de desempenho (Pp, Ppk)
+    # Cálculo dos índices de desempenho (Pp, Ppk)
     lse = 2.6 # Limite superior especificado pelo usuário
     lie = 2.4 # Limite inferior especificado pelo usuário
     pp = (lse - lie) / (6 * x1.std())
     ppk = min([lse - x1.mean(), x1.mean() - lie]) / (3 * x1.std())
-    # Calculo dos índices de capabilidade (Cp, Cpk)
+    # Cálculo dos índices de capabilidade (Cp, Cpk)
     mrStd = mr.mean() / 1.128 # desvio padrão estimado a partir das amplitudes
     cp = (lse - lie) / (6 * mrStd)
     cpk = min([lse - x1.mean(), x1.mean() - lie]) / (3 * mrStd)
@@ -332,7 +332,6 @@ def cep( xepm, ei = None, es = None ):
     axLCAs.plot(mrt, licA * np.ones(len(mr)), 'r--')
     axLCAs.plot(mrt, lscA * np.ones(len(mr)), 'r--')
     # Apresentação dos resultados
-    #font = {'family' : 'serif', 'color'  : 'darkred','weight' : 'bold','size'   : 11}
     font = {'family' : 'serif', 'color'  : 'darkred','size'   : 9}
     axInfos = fig.add_subplot(5, 1, 5)
     plt.setp(axInfos.get_xticklabels(), visible=False)
@@ -392,7 +391,6 @@ def sendMailTo(to_addr, subject_header, bd='', att=''):
     smtpserver.login(mail_username, mail_password)
     smtpserver.sendmail(from_addr, to_addr, msg.as_string())
     smtpserver.quit()
-
 
 # Retorna o percentual de tempo que a variável ficou em cada período
 def percentTimeIn(epmData, nodes = -1):
@@ -480,7 +478,7 @@ def vec2epm(t, y):
     epmY['Quality'] = 0
     return epmY
 
-# Geracao do perfil diario de uma variavel - retorna uma matriz para plotar com matplotlib.pylab.plot (dados devem fechar em dia completo)
+# Geração do perfil diario de uma variavel - retorna uma matriz para plotar com matplotlib.pylab.plot (dados devem fechar em dia completo)
 # Os dados devem estar interpolados (igualmente espacados).
 def dailyProfile3D( epmData, sampling = 30, pHours = 24):
     """
@@ -525,27 +523,29 @@ def dailyProfile3D( epmData, sampling = 30, pHours = 24):
     plt.show()
 
 
-
 ##############################################################################################################################################
-# Curva de potencia com o vento - informando a P nominal
+##############################################################################################################################################
+##############################################################################################################################################
+
+# Curva de potência com o vento - informando a P nominal
 # Pot = Pnominal / (1 + exp-(a * V + b))
-# Curva de potencia com o vento - estimando a P nominal
+# Curva de potência com o vento - estimando a P nominal
 def powerFitPn(par, x):
     return par[2] / (par[3] + np.exp(-(par[0] * x + par[1])))
 
-# Residuos para estimar parametros da curva de Pot com o Vento estimando tbm Pnominal
+# Resíduos para estimar pârametros da curva de Pot com o Vento estimando tbm Pnominal
 def residualsSPPn(par, x, y):
     return powerFitPn(par, x) - y
 
-# Analise de dados Energia Eolica - Wind Power Generator - verso com Spline
+# Analise de dados Energia Eólica - Wind Power Generator - verso com Spline
 def windPower(epmWindSpeed, epmPower, Pnominal):
     speedData = epmWindSpeed['Value'].copy()
     powerData = epmPower['Value'].copy()
-    # Removendo Valores de Pot�ncias igual a zero
+    # Removendo Valores de Potências igual a zero
     pPos = np.argwhere(powerData < 0.)
     speed = np.delete(speedData,pPos)
     power = np.delete(powerData,pPos)
-    # Remove potencias superiores a potencia nominal informada
+    # Remove potências superiores a potência nominal informada
     pPos = np.argwhere(powerData > Pnominal)
     speed = np.delete(speed,pPos)
     power = np.delete(power,pPos)
@@ -553,28 +553,28 @@ def windPower(epmWindSpeed, epmPower, Pnominal):
     pPos = np.argwhere(speed < 4.)
     speed = np.delete(speed,pPos)
     power = np.delete(power,pPos)
-    # Grafico scatter da potencia com a velocidade do vento
+    # Grafico scatter da potência com a velocidade do vento
     plt.scatter(speed, power)
-    # Calculo das potencias medias para cada velocidade
+    # Cálculo das potências medias para cada velocidade
     xm, ym = windPowerAverage(speed, power)
-    # Dados para fazer a curva de referencia via arquivo CVS
+    # Dados para fazer a curva de referência via arquivo CVS
     speedRef, powerRef = read_from_csv(r'C:\MyLibs\Refdata2000.csv')
-    # Fit via Spline para plotar a curva de referencia
+    # Fit via Spline para plotar a curva de referência
     tckRef = interpolate.splrep(speedRef, powerRef, s=0)
     binSpeed = 0.5
     xRef = np.arange(speedRef.min(), speedRef.max(), binSpeed)
     yRef = interpolate.splev(xRef, tckRef, der=0)
-    # Dados da velocidade igualmente espacados para plotar a curva estimada
-    # Fit via Eq com 4 parametros estimados
+    # Dados da velocidade igualmente espaçados para plotar a curva estimada
+    # Fit via Eq com 4 parâmetros estimados
     par0 = [1.0, 1.0, 1500.0, 1.0]
     parest,cov,infodict,mesg,ier = optimize.leastsq(residualsSPPn, par0, args=(xm, ym), full_output=True)
     xEst = np.arange(xm.min(), xm.max(), binSpeed)
     yEst = powerFitPn(parest, xEst)
     posAbove = np.argwhere(yEst > Pnominal) # verifica se algum valor da spline deu superior a Pnominal e aplica clamping
     yEst[posAbove] = Pnominal
-    # Calculo da area entre as curvas de referencia e a obtida atraves dos dados medidos -> Energia que nao esta sendo gerarada
+    # Cálculo da área entre as curvas de refer~ncia e a obtida através dos dados medidos -> Energia que não esta sendo gerada
     energyLost = integrate.simps(yRef, dx=binSpeed) - integrate.simps(yEst, dx=binSpeed)
-    # Plot da curva de referencia
+    # Plot da curva de referência
     plt.plot(xRef, yRef, color='r', linewidth=3)
     # Plot da curva estimada a partir dos dados
     plt.plot(xEst, yEst, color='g', linewidth=2)
@@ -583,7 +583,7 @@ def windPower(epmWindSpeed, epmPower, Pnominal):
     plt.ylabel(r'$Power (KW)$')
     plt.show()
 
-# Determinacao dos valores medios de potencia para cada valor de velocidade
+# Determinação dos valores médios de potência para cada valor de velocidade
 def windPowerAverage(speed, power):
     pos = np.argsort(speed)
     x = speed[pos].copy()
@@ -599,7 +599,7 @@ def windPowerAverage(speed, power):
     return np.array(xm), np.array(ym)
 #####################################################
 #####################################################
-# Funcoes extras para filtro de sinais
+# Funções extras para filtro de sinais
 def lfilter_zi( b, a ):
     n = max(len(a),len(b))
     zin = (  np.eye(n-1) - np.hstack( (-a[1:n, np.newaxis], np.vstack((np.eye(n-2), np.zeros(n-2))))))
