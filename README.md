@@ -23,8 +23,10 @@ O curso é parte integrante do conjunto de ações que a **Elipse Software** sem
 
 ## Links Úteis
 
+
+* QRCode para a apresentação de *slides*
+<img src="https://raw.githubusercontent.com/elipsesoftware/epmanalysisminicourse/master/resources/EPM_Analysis_presentation.png" align="left" width="30%">
 * [Apresentação de Slides - RevealJS](https://elipsesoftware.github.io/epmanalysisminicourse)
-* QRCode para a apresentação de *slides* <img src="https://raw.githubusercontent.com/elipsesoftware/epmanalysisminicourse/master/resources/EPM_Analysis_presentation.png" align="left" width="30%">
 * [Playlist dos vídeos](https://www.youtube.com/playlist?list=PLoCAWpTf0fzU2etXKmj27Bs9XLduznPEd)
 * [Repositório de conteúdo da epmwebapi](https://github.com/elipsesoftware/epmwebapi)
 * [Repositório de conteúdo do EPM Studio](https://github.com/elipsesoftware/epmstudio)
