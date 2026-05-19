@@ -9,7 +9,7 @@ decorator==4.4.2
 defusedxml==0.6.0
 entrypoints==0.3
 epmwebapi==1.4.2
-idna==2.9
+idna==3.15
 importlib-metadata==1.6.0
 ipykernel==5.3.0
 ipython==7.15.0
